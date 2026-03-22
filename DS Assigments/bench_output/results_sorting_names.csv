@@ -1,0 +1,6 @@
+algorithm,size,label,time_s,comparisons,swaps,assignments,memory_peak_bytes,memory_per_element_bytes
+TimSort (Built-in),10000,Full_Name,0.0019690999761223793,0,0,0,120000,12.0
+MergeSort,10000,Full_Name,0.615067699982319,120485,0,133616,80256,8.0256
+QuickSort,10000,Full_Name,0.5061347000009846,205771,65370,0,2912,0.2912
+HeapSort,10000,Full_Name,0.5780682000040542,235396,124189,0,636,0.0636
+InsertionSort,10000,Full_Name,72.08050750000984,24831567,0,24831574,192,0.0192

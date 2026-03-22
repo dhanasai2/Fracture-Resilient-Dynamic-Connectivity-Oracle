@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShatterMap Benchmark Dashboard</title>
+    <meta name="description" content="Performance analysis dashboard for ShatterMap - a novel fracture-aware connectivity oracle for internet backbone monitoring" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">⬡</div>
+                <div>
+                    <h1 class="title">ShatterMap</h1>
+                    <p class="subtitle">Fracture-Aware Connectivity Oracle — Benchmark Dashboard</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span>NOVEL DATA STRUCTURE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stat-card" id="stat-nodes">
+            <div class="stat-value" data-target="90000">0</div>
+            <div class="stat-label">Router Nodes</div>
+            <div class="stat-icon">🌐</div>
+        </div>
+        <div class="stat-card" id="stat-edges">
+            <div class="stat-value" data-target="300000">0</div>
+            <div class="stat-label">Fiber Links</div>
+            <div class="stat-icon">🔗</div>
+        </div>
+        <div class="stat-card" id="stat-ops">
+            <div class="stat-value" data-target="120000">0</div>
+            <div class="stat-label">Dynamic Operations</div>
+            <div class="stat-icon">⚡</div>
+        </div>
+        <div class="stat-card highlight" id="stat-safe">
+            <div class="stat-value" data-target="99.9" data-suffix="%">0%</div>
+            <div class="stat-label">Safe Delete Rate</div>
+            <div class="stat-icon">🛡️</div>
+        </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+        <button class="tab-btn" data-tab="operations">⚙️ Operations</button>
+        <button class="tab-btn" data-tab="shattermap">🔬 ShatterMap Analysis</button>
+        <button class="tab-btn" data-tab="memory">💾 Memory</button>
+        <button class="tab-btn" data-tab="details">📋 Details</button>
+    </nav>
+
+    <!-- Tab Content -->
+    <main class="content">
+        <!-- Overview Tab -->
+        <section class="tab-content active" id="tab-overview">
+            <div class="chart-grid">
+                <div class="chart-card large">
+                    <h3>⏱️ Total Operation Time Comparison (ms)</h3>
+                    <p class="chart-desc">Lower is better — ShatterMap vs classical data structures</p>
+                    <canvas id="chart-total-time"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>🔍 Static Query Time (ms)</h3>
+                    <p class="chart-desc">200,000 connectivity queries</p>
+                    <canvas id="chart-query-time"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>🏗️ Build Time (ms)</h3>
+                    <p class="chart-desc">Loading 300K edges into each structure</p>
+                    <canvas id="chart-build-time"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Operations Tab -->
+        <section class="tab-content" id="tab-operations">
+            <div class="chart-grid">
+                <div class="chart-card large">
+                    <h3>📊 Dynamic Operation Breakdown (ms)</h3>
+                    <p class="chart-desc">ADD / DELETE / CHECK performance per data structure</p>
+                    <canvas id="chart-ops-breakdown"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>🗑️ Delete Performance (ms)</h3>
+                    <p class="chart-desc">ShatterMap's key advantage — O(1) for non-bridge edges</p>
+                    <canvas id="chart-delete-time"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>✅ Feature Support Matrix</h3>
+                    <div class="feature-matrix" id="feature-matrix"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ShatterMap Analysis Tab -->
+        <section class="tab-content" id="tab-shattermap">
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>🔬 Edge Classification</h3>
+                    <p class="chart-desc">Bridge (stress) vs reinforced (safe) edges</p>
+                    <canvas id="chart-edge-class"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>🛡️ Delete Operation Outcomes</h3>
+                    <p class="chart-desc">Safe O(1) deletes vs fracture-required deletes</p>
+                    <canvas id="chart-delete-outcomes"></canvas>
+                </div>
+                <div class="chart-card large">
+                    <h3>💡 How ShatterMap Works</h3>
+                    <div class="explainer">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div class="step-text">
+                                <h4>Build & Classify</h4>
+                                <p>Load all edges, run DFS to identify <strong>bridge edges</strong> (stress) vs <strong>non-bridge edges</strong> (reinforced). In sparse backbone networks, &lt;1% are bridges.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div class="step-text">
+                                <h4>O(1) Safe Deletes</h4>
+                                <p>When deleting a <strong>reinforced edge</strong>, connectivity is GUARANTEED to be preserved. Just remove it — <strong>no verification needed</strong>. This is the key innovation.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div class="step-text">
+                                <h4>Fracture Response</h4>
+                                <p>When deleting a <strong>stress edge</strong> (bridge), trigger BFS to detect component split and reclassify edges. Rare event (&lt;1% of operations).</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">4</div>
+                            <div class="step-text">
+                                <h4>O(1) Queries</h4>
+                                <p>Every node has a <strong>zone ID</strong>. Connected nodes share the same zone. Connectivity check = compare two integers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Memory Tab -->
+        <section class="tab-content" id="tab-memory">
+            <div class="chart-grid">
+                <div class="chart-card large">
+                    <h3>💾 Memory Usage Comparison (MB)</h3>
+                    <p class="chart-desc">Estimated memory footprint of each data structure</p>
+                    <canvas id="chart-memory"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Details Tab -->
+        <section class="tab-content" id="tab-details">
+            <div class="chart-card large">
+                <h3>📋 Complete Benchmark Results</h3>
+                <div class="table-wrapper">
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Data Structure</th>
+                                <th>Type</th>
+                                <th>Build (ms)</th>
+                                <th>Query (ms)</th>
+                                <th>Add (ms)</th>
+                                <th>Delete (ms)</th>
+                                <th>Check (ms)</th>
+                                <th>Memory (MB)</th>
+                                <th>Supports Delete?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="chart-card large">
+                <h3>📊 Complexity Analysis</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>Data Structure</th><th>Add Link</th><th>Remove Link</th><th>Check Connectivity</th><th>Build</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight-row"><td><strong>ShatterMap</strong></td><td>O(1)</td><td>O(1) non-bridge / O(V+E) bridge</td><td>O(1)</td><td>O(V+E)</td></tr>
+                            <tr><td>UnionFind (DSU)</td><td>O(α(n))</td><td>❌ Not supported</td><td>O(α(n))</td><td>O(E·α(n))</td></tr>
+                            <tr><td>AdjList + BFS</td><td>O(1)</td><td>O(deg)</td><td>O(V+E)</td><td>O(E)</td></tr>
+                            <tr><td>AdjList + DFS</td><td>O(1)</td><td>O(deg)</td><td>O(V+E)</td><td>O(E)</td></tr>
+                            <tr><td>HashGraph + BFS</td><td>O(1) avg</td><td>O(1) avg</td><td>O(V+E)</td><td>O(E)</td></tr>
+                            <tr><td>BSTGraph + BFS</td><td>O(log deg)</td><td>O(log deg)</td><td>O(V+E)</td><td>O(E·log deg)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>ShatterMap — A Novel Fracture-Aware Connectivity Oracle for Large-Scale Internet Backbone Monitoring</p>
+        <p class="footer-sub">Data Structures & Algorithms Project | C++ Implementation</p>
+    </footer>
+
+    <script src="results.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
